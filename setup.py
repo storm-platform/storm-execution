@@ -76,7 +76,7 @@ setup(
         ],
         "invenio_base.api_apps": ["storm_job = storm_job:StormJob"],
         "invenio_base.api_blueprints": [
-            "storm_job_api = storm_job.views:create_execution_job_blueprint_api"
+            "storm_job_api = storm_job.views:create_job_management_blueprint_api"
         ],
         "invenio_db.models": ["storm_job = storm_job.job.models.model"],
         # 'invenio_access.actions': [],
