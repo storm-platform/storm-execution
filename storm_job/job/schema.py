@@ -15,14 +15,14 @@ ma = Marshmallow()
 
 
 class ExecutionJobSchema(ma.Schema):
+    """Execution Job schema."""
+
     class Meta:
         # Fields to expose
         fields = (
             "id",
             "status",
-            "user_id",
             "pipeline_id",
-            "project_id",
             "links",
         )
 
@@ -53,6 +53,21 @@ class ExecutionJobSchema(ma.Schema):
             )
         }
     )
+
+
+class JobExecutorMetadataSchema(ma.Schema):
+    """Job executor metadata schema."""
+
+    title = ma.String(required=True)
+    description = ma.String(required=True)
+    supported_descriptors = ma.List(cls_or_instance=ma.String())
+
+
+class JobExecutorSchema(ma.Schema):
+    """Job executor schema."""
+
+    id = ma.String(required=True)
+    metadata = ma.Nested(JobExecutorMetadataSchema)
 
 
 __all__ = "ExecutionJobSchema"
