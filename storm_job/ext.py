@@ -7,9 +7,12 @@
 
 """Job schedule and management module for reproduce scientific research in the Storm Platform."""
 
-from flask_babelex import gettext as _
-
 from . import config
+
+from .job.resources.config import ExecutionJobResourceConfig
+from .job.resources.resource import ExecutionJobResource
+from .job.services.config import ExecutionJobServiceConfig
+from .job.services.service import ExecutionJobService
 
 
 class StormJob(object):
@@ -17,26 +20,29 @@ class StormJob(object):
 
     def __init__(self, app=None):
         """Extension initialization."""
-        # TODO: This is an example of translation string with comment. Please
-        # remove it.
-        # NOTE: This is a note to a translator.
-        _('A translation string')
         if app:
             self.init_app(app)
 
     def init_app(self, app):
         """Flask application initialization."""
         self.init_config(app)
-        app.extensions['storm-job'] = self
+        self.init_services(app)
+        self.init_resources(app)
+
+        app.extensions["storm-job"] = self
 
     def init_config(self, app):
         """Initialize configuration."""
-        # Use theme's base template if theme is installed
-        if 'BASE_TEMPLATE' in app.config:
-            app.config.setdefault(
-                'STORM_JOB_BASE_TEMPLATE',
-                app.config['BASE_TEMPLATE'],
-            )
         for k in dir(config):
-            if k.startswith('STORM_JOB_'):
+            if k.startswith("STORM_JOB_"):
                 app.config.setdefault(k, getattr(config, k))
+
+    def init_services(self, app):
+        """Initialize the execution job services."""
+        self.execution_job_service = ExecutionJobService(ExecutionJobServiceConfig)
+
+    def init_resources(self, app):
+        """Initialize the execution job resources."""
+        self.execution_job_resource = ExecutionJobResource(
+            ExecutionJobResourceConfig, self.execution_job_service
+        )
