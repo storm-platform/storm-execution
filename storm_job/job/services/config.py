@@ -9,19 +9,20 @@
 from ..models.api import ExecutionJob
 from ..schema import ExecutionJobSchema
 
-from .permissions import ExecutionJobRecordPermissionPolicy
+from .permissions import JobRecordPermissionPolicy
 from .components import ProjectComponent, PipelineComponent, UserComponent
 
 
 from storm_commons.plugins import load_service_plugins
 
 
-class ExecutionJobServiceConfig:
+class JobManagementServiceConfig:
+    """Job management service configuration."""
 
     #
     # Common configurations
     #
-    permission_policy_cls = ExecutionJobRecordPermissionPolicy
+    permission_policy_cls = JobRecordPermissionPolicy
 
     #
     # Record configuration
@@ -41,4 +42,4 @@ class ExecutionJobServiceConfig:
     plugins = load_service_plugins("storm_job.plugins")
 
 
-__all__ = "ExecutionJobServiceConfig"
+__all__ = "JobManagementServiceConfig"

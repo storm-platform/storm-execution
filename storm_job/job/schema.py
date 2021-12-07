@@ -43,7 +43,7 @@ class ExecutionJobSchema(ma.Schema):
     links = ma.Hyperlinks(
         {
             "self": ma.AbsoluteURLFor(
-                "storm_job_jobs.read",
+                "storm_job_jobs_management.read",
                 values=dict(
                     job_id="<id>",
                     _scheme="https",

@@ -22,10 +22,17 @@ from storm_pipeline.pipeline.records.models import ResearchPipelineMetadata
 class ExecutionJobStatus(enum.Enum):
     """Execution Job status."""
 
+    # General
     SUCCESS = "success"
     FAILURE = "failure"
-    RUNNING = "running"
     PENDING = "pending"
+
+    # Internal executors
+    RUNNING = "running"
+
+    # External executors
+    SENT = "SENT"
+    SENDING = "SENDING"
 
 
 class ExecutionJobModel(db.Model, Timestamp):

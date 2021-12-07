@@ -9,10 +9,11 @@
 
 from . import config
 
-from .job.resources.config import ExecutionJobResourceConfig
-from .job.resources.resource import ExecutionJobResource
-from .job.services.config import ExecutionJobServiceConfig
-from .job.services.service import ExecutionJobService
+
+from .job.services.service import JobManagementService
+from .job.resources.resource import JobManagementResource
+from .job.services.config import JobManagementServiceConfig
+from .job.resources.config import JobManagementResourceConfig
 
 
 class StormJob(object):
@@ -39,10 +40,10 @@ class StormJob(object):
 
     def init_services(self, app):
         """Initialize the execution job services."""
-        self.execution_job_service = ExecutionJobService(ExecutionJobServiceConfig)
+        self.job_management_service = JobManagementService(JobManagementServiceConfig)
 
     def init_resources(self, app):
         """Initialize the execution job resources."""
-        self.execution_job_resource = ExecutionJobResource(
-            ExecutionJobResourceConfig, self.execution_job_service
+        self.job_management_resource = JobManagementResource(
+            JobManagementResourceConfig, self.job_management_service
         )

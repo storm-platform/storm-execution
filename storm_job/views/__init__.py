@@ -5,6 +5,6 @@
 # storm-job is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
-from .api import create_execution_job_blueprint_api
+from .api import create_job_management_blueprint_api
 
-__all__ = "create_execution_job_blueprint_api"
+__all__ = "create_job_management_blueprint_api"

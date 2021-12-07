@@ -7,7 +7,6 @@
 
 
 from flask import g
-from pydash import py_
 
 from flask_resources import (
     Resource,
@@ -19,38 +18,33 @@ from flask_resources import (
 from .parsers import request_data, request_read_args, request_view_args
 
 
-class ExecutionJobResource(Resource):
-    """Execution Job resource."""
+class JobManagementResource(Resource):
+    """Job management resource."""
 
     def __init__(self, config, service):
-        """Constructor."""
-        super(ExecutionJobResource, self).__init__(config)
+        super(JobManagementResource, self).__init__(config)
         self.service = service
 
     def create_url_rules(self):
         """Create the URL rules for the record resource."""
         routes = self.config.routes
         return [
+            # Base operations
             route("GET", routes["read-item"], self.read),
             route("POST", routes["create-item"], self.create),
             # route("GET", routes["list"], self.search),
             # route("DELETE", routes["item"], self.delete),
+            # Execution operations
+            route("GET", routes["list-executor-item"], self.list_available_executors),
         ]
 
     def _dump(self, records):
         """Dump records to JSON."""
-        values = (
-            py_.chain([records])
-            .flatten()
-            .map(
-                lambda record: self.service.schema.dump(
-                    record, context={"identity": g.identity}
-                )
-            )
-            .value()
-        )
 
-        return py_.head(values) if type(records) != list else values
+        is_many = type(records) == list
+        return self.service.schema.dump(
+            records, context={"identity": g.identity}, schema_args={"many": is_many}
+        )
 
     @request_data
     @response_handler()
@@ -97,3 +91,12 @@ class ExecutionJobResource(Resource):
     #         revision_id=resource_requestctx.headers.get("if_match"),
     #     )
     #     return "", 204
+
+    @response_handler(many=True)
+    def list_available_executors(self):
+        """List the available executors."""
+
+        return self.service.list_available_executors(), 200
+
+
+__all__ = "JobManagementResource"

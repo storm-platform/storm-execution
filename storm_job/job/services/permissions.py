@@ -9,7 +9,7 @@ from invenio_records_permissions import BasePermissionPolicy
 from invenio_records_permissions.generators import AuthenticatedUser, SystemProcess
 
 
-class ExecutionJobRecordPermissionPolicy(BasePermissionPolicy):
+class JobRecordPermissionPolicy(BasePermissionPolicy):
     """Access control configuration for execution jobs.
 
     See:
@@ -37,4 +37,4 @@ class ExecutionJobRecordPermissionPolicy(BasePermissionPolicy):
     can_search = can_use
 
 
-__all__ = "ExecutionJobRecordPermissionPolicy"
+__all__ = "JobRecordPermissionPolicy"

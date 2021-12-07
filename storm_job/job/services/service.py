@@ -11,10 +11,12 @@ from invenio_db import db
 from invenio_records_resources.services.base import Service
 from invenio_records_resources.services import ServiceSchemaWrapper
 
+from storm_job.job.schema import JobExecutorSchema
 
-class ExecutionJobService(Service):
+
+class JobManagementService(Service):
     def __iter__(self, config):
-        super(ExecutionJobService, self).__init__(config)
+        super(JobManagementService, self).__init__(config)
 
     @property
     def record_cls(self):
@@ -25,6 +27,11 @@ class ExecutionJobService(Service):
     def schema(self):
         """Returns the data schema instance."""
         return ServiceSchemaWrapper(self, schema=self.config.schema)
+
+    @property
+    def plugins(self):
+        """Return the available execution plugins."""
+        return self.config.plugins
 
     def create(self, identity, data):
         """Create a execution job.
@@ -85,7 +92,14 @@ class ExecutionJobService(Service):
         return record
 
     def list_available_executors(self):
-        return py_.chain(self.config.plugins, []).map(lambda x: x["metadata"])
+        """Return the metadata of the available executors."""
+        available_executors = []
+        if self.plugins:
+            available_executors = JobExecutorSchema(many=True).dump(
+                py_.chain(self.plugins).map(lambda x: py_.omit(x, "service")).value()
+            )
+
+        return available_executors
 
 
-__all__ = "ExecutionJobService"
+__all__ = "JobManagementService"

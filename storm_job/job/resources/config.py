@@ -16,17 +16,8 @@ from flask_resources import (
 )
 
 
-class ExecutionJobResourceConfig(ResourceConfig):
-    """Execution Job resource config."""
-
-    # Blueprint configuration
-    blueprint_name = "storm_job_jobs"
-    url_prefix = "/projects/<project_id>/jobs"
-    routes = {
-        # Base operations
-        "create-item": "",
-        "read-item": "/<job_id>",
-    }
+class JobResourceConfigBase(ResourceConfig):
+    """Base configuration class for job resources."""
 
     # Request parsing
     request_read_args = {}
@@ -37,3 +28,18 @@ class ExecutionJobResourceConfig(ResourceConfig):
     # Response handling
     response_handlers = {"application/json": ResponseHandler(JSONSerializer())}
     default_accept_mimetype = "application/json"
+
+
+class JobManagementResourceConfig(JobResourceConfigBase):
+    """Job management resource config."""
+
+    # Blueprint configuration
+    blueprint_name = "storm_job_jobs_management"
+    url_prefix = "/projects/<project_id>/jobs"
+    routes = {
+        # Base operations
+        "create-item": "",
+        "read-item": "/<job_id>",
+        # Execution operations
+        "list-executor-item": "/executors",
+    }
