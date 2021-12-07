@@ -8,33 +8,42 @@
 """Job schedule and management module for reproduce scientific research in the Storm Platform."""
 
 import os
-
 from setuptools import find_packages, setup
 
-readme = open('README.rst').read()
-history = open('CHANGES.rst').read()
+readme = open("README.rst").read()
+history = open("CHANGES.rst").read()
 
-tests_require = [
-    'pytest-invenio>=1.4.0',
-]
+tests_require = []
+
+invenio_db_version = ">=1.0.9,<2.0.0"
 
 extras_require = {
-    'docs': [
-        'Sphinx>=3,<4',
+    "docs": [
+        "Sphinx>=3,<4",
     ],
-    'tests': tests_require,
+    "tests": tests_require,
+    # Databases
+    "mysql": [
+        f"invenio-db[mysql,versioning]{invenio_db_version}",
+    ],
+    "postgresql": [
+        f"invenio-db[postgresql,versioning]{invenio_db_version}",
+    ],
+    "sqlite": [
+        f"invenio-db[versioning]{invenio_db_version}",
+    ],
 }
 
-extras_require['all'] = []
-for reqs in extras_require.values():
-    extras_require['all'].extend(reqs)
+extras_require["all"] = [req for _, reqs in extras_require.items() for req in reqs]
 
-setup_requires = [
-    'Babel>=2.8',
-]
+setup_requires = []
 
 install_requires = [
-    'invenio-i18n>=1.2.0',
+    # Invenio dependencies
+    "invenio-records-resources>=0.17.0,<0.18",
+    # Storm dependencies
+    "storm-commons @ git+https://github.com/storm-platform/storm-commons",
+    "storm-pipeline @ git+https://github.com/storm-platform/storm-pipeline",
 ]
 
 packages = find_packages()
@@ -42,35 +51,34 @@ packages = find_packages()
 
 # Get the version string. Cannot be done with import!
 g = {}
-with open(os.path.join('storm_job', 'version.py'), 'rt') as fp:
+with open(os.path.join("storm_job", "version.py"), "rt") as fp:
     exec(fp.read(), g)
-    version = g['__version__']
+    version = g["__version__"]
 
 setup(
-    name='storm-job',
+    name="storm-job",
     version=version,
     description=__doc__,
-    long_description=readme + '\n\n' + history,
-    keywords='invenio TODO',
-    license='MIT',
-    author='Felipe Menino Carlos',
-    author_email='felipe.carlos@inpe.br',
-    url='https://github.com/storm-platform/storm-job',
+    long_description=readme + "\n\n" + history,
+    keywords=["Storm Platform", "Execution jobs", "Invenio module"],
+    license="MIT",
+    author="Felipe Menino Carlos",
+    author_email="felipe.carlos@inpe.br",
+    url="https://github.com/storm-platform/storm-job",
     packages=packages,
     zip_safe=False,
     include_package_data=True,
-    platforms='any',
+    platforms="any",
     entry_points={
-        'invenio_base.apps': [
-            'storm_job = storm_job:StormJob',
+        "invenio_base.apps": [
+            "storm_job = storm_job:StormJob",
+            "storm_job_marshmallow = flask_marshmallow:Marshmallow",
         ],
-        'invenio_base.blueprints': [
-            'storm_job = storm_job.views:blueprint',
+        "invenio_base.api_apps": ["storm_job = storm_job:StormJob"],
+        "invenio_base.api_blueprints": [
+            "storm_job_api = storm_job.views:create_execution_job_blueprint_api"
         ],
-        'invenio_i18n.translations': [
-            'messages = storm_job',
-        ],
-        # TODO: Edit these entry points to fit your needs.
+        "invenio_db.models": ["storm_job = storm_job.job.models.model"],
         # 'invenio_access.actions': [],
         # 'invenio_admin.actions': [],
         # 'invenio_assets.bundles': [],
@@ -87,18 +95,18 @@ setup(
     setup_requires=setup_requires,
     tests_require=tests_require,
     classifiers=[
-        'Environment :: Web Environment',
-        'Intended Audience :: Developers',
-        'License :: OSI Approved :: MIT License',
-        'Operating System :: OS Independent',
-        'Programming Language :: Python',
-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
-        'Topic :: Software Development :: Libraries :: Python Modules',
-        'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
-        'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
-        'Programming Language :: Python :: 3.9',
-        'Development Status :: 1 - Planning',
+        "Environment :: Web Environment",
+        "Intended Audience :: Developers",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+        "Programming Language :: Python",
+        "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
+        "Topic :: Software Development :: Libraries :: Python Modules",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.6",
+        "Programming Language :: Python :: 3.7",
+        "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.9",
+        "Development Status :: 1 - Planning",
     ],
 )
