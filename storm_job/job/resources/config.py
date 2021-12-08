@@ -42,4 +42,5 @@ class JobManagementResourceConfig(JobResourceConfigBase):
         "read-item": "/<job_id>",
         # Execution operations
         "list-executor-item": "/executors",
+        "create-executor-item": "/<job_id>/actions/start",
     }

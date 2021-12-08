@@ -36,5 +36,7 @@ class JobRecordPermissionPolicy(BasePermissionPolicy):
 
     can_search = can_use
 
+    can_execute = can_use
+
 
 __all__ = "JobRecordPermissionPolicy"

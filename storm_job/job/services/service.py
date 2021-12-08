@@ -81,7 +81,7 @@ class JobManagementService(Service):
     def read(self, identity, id_):
         """Retrieve a record."""
         # Resolve and require permission
-        record = self.record_cls.get_record(id_)
+        record = self.record_cls.get_record(id=id_)
         self.require_permission(identity, "read", record=record)
 
         # Run components
@@ -100,6 +100,22 @@ class JobManagementService(Service):
             )
 
         return available_executors
+
+    def execute_job(self, identity, id_, data):
+        """Start a job execution."""
+        record = self.read(identity, id_)
+        self.require_permission(identity, "execute", record=record)
+
+        # Selecting an executor
+        executor_id = py_.get(data, "executor_id", None)
+        selected_executor = py_.filter_(self.plugins, lambda x: x["id"] == executor_id)
+
+        if selected_executor:
+            task = py_.get(selected_executor, "0.service")(
+                py_.get(record.pipeline.data, "id"), **{**data, "type": "serial"}
+            )
+
+        return record
 
 
 __all__ = "JobManagementService"

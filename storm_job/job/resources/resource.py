@@ -36,6 +36,7 @@ class JobManagementResource(Resource):
             # route("DELETE", routes["item"], self.delete),
             # Execution operations
             route("GET", routes["list-executor-item"], self.list_available_executors),
+            route("POST", routes["create-executor-item"], self.execute_job),
         ]
 
     def _dump(self, records):
@@ -95,8 +96,20 @@ class JobManagementResource(Resource):
     @response_handler(many=True)
     def list_available_executors(self):
         """List the available executors."""
-
         return self.service.list_available_executors(), 200
+
+    @request_data
+    @request_view_args
+    @response_handler()
+    def execute_job(self):
+        """Execute a job."""
+        item = self.service.execute_job(
+            g.identity,
+            resource_requestctx.view_args["job_id"],
+            resource_requestctx.data or {},
+        )
+
+        return self._dump(item), 201
 
 
 __all__ = "JobManagementResource"
