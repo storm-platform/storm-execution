@@ -6,17 +6,17 @@
 # the terms of the MIT License; see LICENSE file for more details.
 
 import enum
-import uuid
 
 from sqlalchemy import Enum
 from sqlalchemy_utils.types import UUIDType
 
 from invenio_db import db
-from invenio_records.models import Timestamp
 from invenio_accounts.models import User as InvenioUser
 
 from storm_project.project.records.models import ResearchProjectMetadata
 from storm_pipeline.pipeline.records.models import ResearchPipelineMetadata
+
+from storm_commons.records.base import BaseSQLAlchemyModel
 
 
 class ExecutionJobStatus(enum.Enum):
@@ -31,20 +31,14 @@ class ExecutionJobStatus(enum.Enum):
     RUNNING = "running"
 
     # External executors
-    SENT = "SENT"
-    SENDING = "SENDING"
+    SENT = "sent"
+    SENDING = "sending"
 
 
-class ExecutionJobModel(db.Model, Timestamp):
+class ExecutionJobModel(db.Model, BaseSQLAlchemyModel):
     """Execution Job database model."""
 
     __tablename__ = "job_execution_job"
-
-    id = db.Column(
-        UUIDType,
-        primary_key=True,
-        default=uuid.uuid4,
-    )
 
     #
     # Execution Job status
