@@ -15,7 +15,11 @@ from flask_resources import (
     route,
 )
 
-from .parsers import request_data, request_read_args, request_view_args
+from storm_commons.resources.parsers import (
+    request_data,
+    request_read_args,
+    request_view_args,
+)
 
 
 class JobManagementResource(Resource):
@@ -29,14 +33,15 @@ class JobManagementResource(Resource):
         """Create the URL rules for the record resource."""
         routes = self.config.routes
         return [
-            # Base operations
+            # Job operations
             route("GET", routes["read-item"], self.read),
             route("POST", routes["create-item"], self.create),
             # route("GET", routes["list"], self.search),
             # route("DELETE", routes["item"], self.delete),
-            # Execution operations
-            route("GET", routes["list-executor-item"], self.list_available_executors),
-            route("POST", routes["create-executor-item"], self.execute_job),
+            # Job actions
+            route("POST", routes["start-item"], self.start_execution_job),
+            # Services operations
+            route("GET", routes["list-service"], self.list_plugin_services),
         ]
 
     def _dump(self, records):
@@ -94,22 +99,22 @@ class JobManagementResource(Resource):
     #     return "", 204
 
     @response_handler(many=True)
-    def list_available_executors(self):
+    def list_plugin_services(self):
         """List the available executors."""
-        return self.service.list_available_executors(), 200
+        return self.service.list_plugin_services(), 200
 
     @request_data
     @request_view_args
     @response_handler()
-    def execute_job(self):
+    def start_execution_job(self):
         """Execute a job."""
-        item = self.service.execute_job(
+        item = self.service.start_execution_job(
             g.identity,
             resource_requestctx.view_args["job_id"],
             resource_requestctx.data or {},
         )
 
-        return self._dump(item), 201
+        return self._dump(item), 202
 
 
 __all__ = "JobManagementResource"

@@ -5,15 +5,20 @@
 # storm-job is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
+from storm_commons.services.components import (
+    UserComponent,
+    ProjectComponent,
+    RecordServiceTypeComponent,
+)
 
-from ..models.api import ExecutionJob
-from ..schema import ExecutionJobSchema
+from storm_job.job.models.api import ExecutionJob
+from storm_job.job.schema import ExecutionJobSchema
+from storm_job.job.services.components import (
+    PipelineComponent,
+    ExecutionJobStatusComponent,
+)
 
-from .permissions import JobRecordPermissionPolicy
-from .components import ProjectComponent, PipelineComponent, UserComponent
-
-
-from storm_commons.plugins import load_service_plugins
+from storm_job.job.services.permissions import JobRecordPermissionPolicy
 
 
 class JobManagementServiceConfig:
@@ -34,12 +39,13 @@ class JobManagementServiceConfig:
     #
     # Components configuration
     #
-    components = [ProjectComponent, PipelineComponent, UserComponent]
-
-    #
-    # Plugins configuration
-    #
-    plugins = load_service_plugins("storm_job.plugins")
+    components = [
+        ProjectComponent,
+        PipelineComponent,
+        UserComponent,
+        ExecutionJobStatusComponent,
+        RecordServiceTypeComponent,
+    ]
 
 
 __all__ = "JobManagementServiceConfig"

@@ -26,6 +26,7 @@ class ExecutionJobStatus(enum.Enum):
     SUCCESS = "success"
     FAILURE = "failure"
     PENDING = "pending"
+    STARTING = "starting"
 
     # Internal executors
     RUNNING = "running"
@@ -41,8 +42,10 @@ class ExecutionJobModel(db.Model, BaseSQLAlchemyModel):
     __tablename__ = "job_execution_job"
 
     #
-    # Execution Job status
+    # Execution Job
     #
+    service = db.Column(db.String)
+
     status = db.Column(Enum(ExecutionJobStatus), default=ExecutionJobStatus.PENDING)
 
     #

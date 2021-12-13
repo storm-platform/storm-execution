@@ -5,38 +5,13 @@
 # storm-job is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
-from invenio_records_permissions import BasePermissionPolicy
-from invenio_records_permissions.generators import AuthenticatedUser, SystemProcess
+from storm_commons.security import BaseRecordPermissionPolicy
 
 
-class JobRecordPermissionPolicy(BasePermissionPolicy):
-    """Access control configuration for execution jobs.
+class JobRecordPermissionPolicy(BaseRecordPermissionPolicy):
+    """Permissions for the Execution Job records."""
 
-    See:
-        This policy is based on `RDMRecordPermissionPolicy` descriptions (https://github.com/inveniosoftware/invenio-rdm-records/blob/6a2574556392223331048f60d6fe9d190269477c/invenio_rdm_records/services/permissions.py).
-    """
-
-    #
-    # High level permissions
-    #
-    can_use = [AuthenticatedUser(), SystemProcess()]
-
-    can_manage = [AuthenticatedUser(), SystemProcess()]
-
-    #
-    # Low level permissions
-    #
-    can_create = [AuthenticatedUser(), SystemProcess()]
-
-    can_read = can_use
-
-    can_update = can_manage
-
-    can_delete = can_manage
-
-    can_search = can_use
-
-    can_execute = can_use
+    can_execute = BaseRecordPermissionPolicy.can_use
 
 
 __all__ = "JobRecordPermissionPolicy"

@@ -7,13 +7,15 @@
 
 """Job schedule and management module for reproduce scientific research in the Storm Platform."""
 
+from storm_commons.plugins.manager import PluginManager
+from storm_commons.plugins.factory import plugin_factory
+
+from storm_job.job.services.service import JobManagementService
+from storm_job.job.resources.resource import JobManagementResource
+from storm_job.job.services.config import JobManagementServiceConfig
+from storm_job.job.resources.config import JobManagementResourceConfig
+
 from . import config
-
-
-from .job.services.service import JobManagementService
-from .job.resources.resource import JobManagementResource
-from .job.services.config import JobManagementServiceConfig
-from .job.resources.config import JobManagementResourceConfig
 
 
 class StormJob(object):
@@ -27,6 +29,8 @@ class StormJob(object):
     def init_app(self, app):
         """Flask application initialization."""
         self.init_config(app)
+
+        self.init_plugins(app)
         self.init_services(app)
         self.init_resources(app)
 
@@ -38,12 +42,23 @@ class StormJob(object):
             if k.startswith("STORM_JOB_"):
                 app.config.setdefault(k, getattr(config, k))
 
+    def init_plugins(self, app):
+        """Initialize the avaliable service plugins for the deposit operations."""
+        available_plugin_services = plugin_factory(app, "storm_job.plugins")
+
+        self.plugin_manager = PluginManager(available_plugin_services)
+
     def init_services(self, app):
         """Initialize the execution job services."""
-        self.job_management_service = JobManagementService(JobManagementServiceConfig)
+        self.job_management_service = JobManagementService(
+            self.plugin_manager, JobManagementServiceConfig
+        )
 
     def init_resources(self, app):
         """Initialize the execution job resources."""
         self.job_management_resource = JobManagementResource(
             JobManagementResourceConfig, self.job_management_service
         )
+
+
+__all__ = "StormJob"

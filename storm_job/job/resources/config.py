@@ -7,40 +7,28 @@
 
 import marshmallow as ma
 
-from flask_resources import (
-    JSONDeserializer,
-    JSONSerializer,
-    RequestBodyParser,
-    ResourceConfig,
-    ResponseHandler,
-)
+from storm_commons.resources.config import ResourceConfigBase
 
 
-class JobResourceConfigBase(ResourceConfig):
-    """Base configuration class for job resources."""
-
-    # Request parsing
-    request_read_args = {}
-    request_view_args = {"job_id": ma.fields.Str()}
-    request_body_parsers = {"application/json": RequestBodyParser(JSONDeserializer())}
-    default_content_type = "application/json"
-
-    # Response handling
-    response_handlers = {"application/json": ResponseHandler(JSONSerializer())}
-    default_accept_mimetype = "application/json"
-
-
-class JobManagementResourceConfig(JobResourceConfigBase):
+class JobManagementResourceConfig(ResourceConfigBase):
     """Job management resource config."""
 
-    # Blueprint configuration
+    # Blueprint configuration.
     blueprint_name = "storm_job_jobs_management"
+
+    # Request/Response configuration.
+    request_view_args = {"job_id": ma.fields.Str()}
+
+    # Routes configuration.
     url_prefix = "/projects/<project_id>/jobs"
     routes = {
-        # Base operations
+        # Services operations
+        "list-service": "/services",
+        # Job operations
         "create-item": "",
         "read-item": "/<job_id>",
-        # Execution operations
-        "list-executor-item": "/executors",
-        "create-executor-item": "/<job_id>/actions/start",
+        "delete-item": "/<deposit_id>",
+        "update-item": "/<deposit_id>",
+        # Job actions
+        "start-item": "/<job_id>/actions/start",
     }

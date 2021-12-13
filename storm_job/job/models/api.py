@@ -5,10 +5,10 @@
 # storm-job is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
-from storm_commons.records.base import BaseSQLAlchemyModelAPI
 from invenio_records.systemfields import SystemFieldsMixin, ModelField
 
-from .model import ExecutionJobModel
+from storm_job.job.models.model import ExecutionJobModel
+from storm_commons.records.base import BaseSQLAlchemyModelAPI
 
 
 class ExecutionJob(BaseSQLAlchemyModelAPI, SystemFieldsMixin):
@@ -37,6 +37,7 @@ class ExecutionJob(BaseSQLAlchemyModelAPI, SystemFieldsMixin):
 
     # General status
     status = ModelField()
+    service = ModelField()
 
 
 __all__ = "ExecutionJob"
