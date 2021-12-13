@@ -39,7 +39,7 @@ class ExecutionJobStatus(enum.Enum):
 class ExecutionJobModel(db.Model, BaseSQLAlchemyModel):
     """Execution Job database model."""
 
-    __tablename__ = "job_execution_job"
+    __tablename__ = "job_execution_jobs"
 
     #
     # Execution Job
