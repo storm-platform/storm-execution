@@ -7,7 +7,6 @@
 
 from storm_commons.services.components import (
     UserComponent,
-    ProjectComponent,
     RecordServiceTypeComponent,
 )
 
@@ -16,9 +15,12 @@ from storm_job.job.schema import ExecutionJobSchema
 from storm_job.job.services.components import (
     PipelineComponent,
     ExecutionJobStatusComponent,
+    ProjectComponent,
 )
 
-from storm_job.job.services.permissions import JobRecordPermissionPolicy
+from storm_job.job.services.security.permissions import (
+    JobExecutionRecordPermissionPolicy,
+)
 
 
 class JobManagementServiceConfig:
@@ -27,7 +29,7 @@ class JobManagementServiceConfig:
     #
     # Common configurations
     #
-    permission_policy_cls = JobRecordPermissionPolicy
+    permission_policy_cls = JobExecutionRecordPermissionPolicy
 
     #
     # Record configuration

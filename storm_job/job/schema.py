@@ -6,10 +6,9 @@
 # the terms of the MIT License; see LICENSE file for more details.
 
 from flask_marshmallow import Marshmallow
-from storm_commons.request import current_access_token
 
 from marshmallow_utils.fields import SanitizedUnicode
-from storm_commons.schema.validators import marshmallow_not_blank_field
+from storm_commons.schemas.validators import marshmallow_not_blank_field
 
 ma = Marshmallow()
 
@@ -48,10 +47,7 @@ class ExecutionJobSchema(ma.Schema):
             "self": ma.AbsoluteURLFor(
                 "storm_job_jobs_management.read",
                 values=dict(
-                    job_id="<id>",
-                    _scheme="https",
-                    project_id="<project.data.id>",
-                    access_token=current_access_token,
+                    job_id="<id>", _scheme="https", project_id="<project.data.id>"
                 ),
             )
         }

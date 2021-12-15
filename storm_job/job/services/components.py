@@ -8,6 +8,8 @@
 from storm_job.job.models.model import ExecutionJobStatus
 from storm_pipeline.pipeline.records.api import ResearchPipeline
 
+from storm_project import current_project
+
 from invenio_records_resources.services.records.components import ServiceComponent
 from invenio_records_resources.services.base.components import BaseServiceComponent
 
@@ -26,3 +28,11 @@ class ExecutionJobStatusComponent(BaseServiceComponent):
     def start_execution_job(self, identity, record=None, **kwargs):
         """Start Execution Job handler."""
         record.status = ExecutionJobStatus.STARTING
+
+
+class ProjectComponent(BaseServiceComponent):
+    """Service component which set the project context in the record."""
+
+    def create(self, identity, data=None, record=None, **kwargs):
+        """Create handler."""
+        record.project_id = current_project._obj.model.id
