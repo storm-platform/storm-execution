@@ -15,23 +15,11 @@ history = open("CHANGES.rst").read()
 
 tests_require = []
 
-invenio_db_version = ">=1.0.9,<2.0.0"
-
 extras_require = {
     "docs": [
         "Sphinx>=3,<4",
     ],
     "tests": tests_require,
-    # Databases
-    "mysql": [
-        f"invenio-db[mysql,versioning]{invenio_db_version}",
-    ],
-    "postgresql": [
-        f"invenio-db[postgresql,versioning]{invenio_db_version}",
-    ],
-    "sqlite": [
-        f"invenio-db[versioning]{invenio_db_version}",
-    ],
 }
 
 extras_require["all"] = [req for _, reqs in extras_require.items() for req in reqs]
@@ -39,11 +27,7 @@ extras_require["all"] = [req for _, reqs in extras_require.items() for req in re
 setup_requires = []
 
 install_requires = [
-    # Invenio dependencies
-    "invenio-records-resources>=0.17.0,<0.18",
-    # Storm dependencies
-    "storm-commons @ git+https://github.com/storm-platform/storm-commons",
-    "storm-pipeline @ git+https://github.com/storm-platform/storm-pipeline",
+    "storm-pipeline @ git+https://github.com/storm-platform/storm-pipeline@main",
 ]
 
 packages = find_packages()
