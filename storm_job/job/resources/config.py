@@ -7,10 +7,11 @@
 
 import marshmallow as ma
 
-from storm_commons.resources.config import ResourceConfigBase
+from storm_commons.resources.config import BaseResourceConfig
+from storm_job.job.resources.args import JobSearchRequestArgsSchema
 
 
-class JobManagementResourceConfig(ResourceConfigBase):
+class JobManagementResourceConfig(BaseResourceConfig):
     """Job management resource config."""
 
     # Blueprint configuration.
@@ -18,6 +19,7 @@ class JobManagementResourceConfig(ResourceConfigBase):
 
     # Request/Response configuration.
     request_view_args = {"job_id": ma.fields.Str()}
+    request_search_args = JobSearchRequestArgsSchema
 
     # Routes configuration.
     url_prefix = "/projects/<project_id>/jobs"
@@ -25,10 +27,11 @@ class JobManagementResourceConfig(ResourceConfigBase):
         # Services operations
         "list-service": "/services",
         # Job operations
+        "list-item": "",
         "create-item": "",
         "read-item": "/<job_id>",
-        "delete-item": "/<deposit_id>",
-        "update-item": "/<deposit_id>",
+        "delete-item": "/<job_id>",
+        "update-item": "/<job_id>",
         # Job actions
         "start-item": "/<job_id>/actions/start",
     }

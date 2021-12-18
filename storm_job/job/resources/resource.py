@@ -5,7 +5,6 @@
 # storm-job is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
-
 from flask import g
 
 from flask_resources import (
@@ -19,10 +18,13 @@ from storm_commons.resources.parsers import (
     request_data,
     request_read_args,
     request_view_args,
+    request_search_args,
 )
 
+from invenio_records_resources.resources.errors import ErrorHandlersMixin
 
-class JobManagementResource(Resource):
+
+class JobManagementResource(ErrorHandlersMixin, Resource):
     """Job management resource."""
 
     def __init__(self, config, service):
@@ -35,22 +37,15 @@ class JobManagementResource(Resource):
         return [
             # Job operations
             route("GET", routes["read-item"], self.read),
+            route("GET", routes["list-item"], self.search),
             route("POST", routes["create-item"], self.create),
-            # route("GET", routes["list"], self.search),
-            # route("DELETE", routes["item"], self.delete),
+            route("PUT", routes["update-item"], self.update),
+            route("DELETE", routes["delete-item"], self.delete),
             # Job actions
             route("POST", routes["start-item"], self.start_execution_job),
             # Services operations
             route("GET", routes["list-service"], self.list_plugin_services),
         ]
-
-    def _dump(self, records):
-        """Dump records to JSON."""
-
-        is_many = type(records) == list
-        return self.service.schema.dump(
-            records, context={"identity": g.identity}, schema_args={"many": is_many}
-        )
 
     @request_data
     @response_handler()
@@ -60,8 +55,7 @@ class JobManagementResource(Resource):
             g.identity,
             resource_requestctx.data or {},
         )
-
-        return self._dump(item), 201
+        return item.to_dict(), 201
 
     @request_read_args
     @request_view_args
@@ -72,31 +66,32 @@ class JobManagementResource(Resource):
             g.identity,
             resource_requestctx.view_args["job_id"],
         )
-        return self._dump(item), 200
+        return item.to_dict(), 200
 
-    # @request_search_args
-    # @response_handler(many=True)
-    # def search(self):
-    #     """Perform a search over the items."""
-    #     identity = g.identity
-    #     hits = self.service.search(
-    #         identity=identity,
-    #         params=resource_requestctx.args,
-    #         es_preference=es_preference(),
-    #     )
-    #     return hits.to_dict(), 200
-    #
+    @request_data
+    @request_view_args
+    @response_handler()
+    def update(self):
+        """Update an item."""
+        item = self.service.update(
+            g.identity,
+            resource_requestctx.view_args["job_id"],
+            resource_requestctx.data or {},
+        )
+        return item.to_dict(), 200
 
-    # @request_headers
-    # @request_view_args
-    # def delete(self):
-    #     """Delete an item."""
-    #     self.service.delete(
-    #         resource_requestctx.view_args["pid_value"],
-    #         g.identity,
-    #         revision_id=resource_requestctx.headers.get("if_match"),
-    #     )
-    #     return "", 204
+    @request_view_args
+    def delete(self):
+        """Delete an item."""
+        self.service.delete(g.identity, resource_requestctx.view_args["job_id"])
+        return "", 204
+
+    @request_search_args
+    @response_handler(many=True)
+    def search(self):
+        """Perform a search over the items."""
+        items = self.service.search(g.identity, resource_requestctx.args)
+        return items.to_dict(), 200
 
     @response_handler(many=True)
     def list_plugin_services(self):
@@ -114,7 +109,7 @@ class JobManagementResource(Resource):
             resource_requestctx.data or {},
         )
 
-        return self._dump(item), 202
+        return item.to_dict(), 202
 
 
 __all__ = "JobManagementResource"
