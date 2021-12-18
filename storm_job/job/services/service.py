@@ -5,11 +5,9 @@
 # storm-job is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
-from pydash import py_
-
 from invenio_db import db
-from storm_commons.services.service import PluginService
-from storm_job_reana.contrib.reprozip.services.serial import service_task
+
+from storm_commons.plugins.rest.service import PluginService
 
 
 class JobManagementService(PluginService):
@@ -32,7 +30,13 @@ class JobManagementService(PluginService):
         # Running!
         job_execution_plugin_service.service.delay(id_, data)
 
-        return record
+        return self.result_item(
+            self,
+            identity,
+            record,
+            links_tpl=self.links_item_tpl,
+            schema=self.schema,
+        )
 
 
 __all__ = "JobManagementService"
