@@ -7,17 +7,24 @@
 
 from storm_commons.services.components import (
     UserComponent,
-    RecordServiceTypeComponent,
+    SoftDeleteComponent,
+    RecordServiceComponent,
+)
+
+from storm_commons.services.pagination.options import BaseSearchOptions
+from storm_commons.services.results import BaseItemResult, BaseListResult
+from storm_project.project.services.links import (
+    ProjectContextLink,
+    project_context_pagination_links,
 )
 
 from storm_job.job.models.api import ExecutionJob
 from storm_job.job.schema import ExecutionJobSchema
 from storm_job.job.services.components import (
     PipelineComponent,
-    ExecutionJobStatusComponent,
     ProjectComponent,
+    ExecutionJobComponent,
 )
-
 from storm_job.job.services.security.permissions import (
     JobExecutionRecordPermissionPolicy,
 )
@@ -25,6 +32,9 @@ from storm_job.job.services.security.permissions import (
 
 class JobManagementServiceConfig:
     """Job management service configuration."""
+
+    result_item_cls = BaseItemResult
+    result_list_cls = BaseListResult
 
     #
     # Common configurations
@@ -45,9 +55,18 @@ class JobManagementServiceConfig:
         ProjectComponent,
         PipelineComponent,
         UserComponent,
-        ExecutionJobStatusComponent,
-        RecordServiceTypeComponent,
+        SoftDeleteComponent,
+        RecordServiceComponent,
+        ExecutionJobComponent,
     ]
+
+    links_item = {"self": ProjectContextLink("{+api}/projects/{project_id}/jobs/{id}")}
+    links_search = project_context_pagination_links(
+        "{+api}/projects/{project_id}/jobs{?args*}"
+    )
+
+    # Search configuration
+    search = BaseSearchOptions
 
 
 __all__ = "JobManagementServiceConfig"
