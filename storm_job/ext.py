@@ -7,15 +7,13 @@
 
 """Job schedule and management module for reproduce scientific research in the Storm Platform."""
 
-from storm_commons.plugins.manager import PluginManager
-from storm_commons.plugins.factory import plugin_factory
+import storm_job.config as config
+from storm_commons.plugins.packages import PluginManager, plugin_factory
 
 from storm_job.job.services.service import JobManagementService
 from storm_job.job.resources.resource import JobManagementResource
 from storm_job.job.services.config import JobManagementServiceConfig
 from storm_job.job.resources.config import JobManagementResourceConfig
-
-from . import config
 
 
 class StormJob(object):
