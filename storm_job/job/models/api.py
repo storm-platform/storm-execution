@@ -8,11 +8,11 @@
 from invenio_records.systemfields import SystemFieldsMixin, ModelField
 
 from storm_job.job.models.model import ExecutionJobModel
-from storm_commons.records.base import BaseSQLAlchemyModelAPI
+from storm_commons.records.api import BaseRecordModelAPI
 
 
-class ExecutionJob(BaseSQLAlchemyModelAPI, SystemFieldsMixin):
-    """Execution model API"""
+class ExecutionJob(BaseRecordModelAPI, SystemFieldsMixin):
+    """Execution Job High-level API"""
 
     model_cls = ExecutionJobModel
     """SQLAlchemy model class defining which table stores the records."""
@@ -38,6 +38,8 @@ class ExecutionJob(BaseSQLAlchemyModelAPI, SystemFieldsMixin):
     # General status
     status = ModelField()
     service = ModelField()
+
+    is_deleted = ModelField()
 
 
 __all__ = "ExecutionJob"

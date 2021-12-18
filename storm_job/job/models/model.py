@@ -16,7 +16,7 @@ from invenio_accounts.models import User as InvenioUser
 from storm_project.project.records.models import ResearchProjectMetadata
 from storm_pipeline.pipeline.records.models import ResearchPipelineMetadata
 
-from storm_commons.records.base import BaseSQLAlchemyModel
+from storm_commons.records.model import BaseRecordModel
 
 
 class ExecutionJobStatus(enum.Enum):
@@ -36,7 +36,7 @@ class ExecutionJobStatus(enum.Enum):
     SENDING = "sending"
 
 
-class ExecutionJobModel(db.Model, BaseSQLAlchemyModel):
+class ExecutionJobModel(db.Model, BaseRecordModel):
     """Execution Job database model."""
 
     __tablename__ = "job_execution_jobs"
@@ -67,4 +67,7 @@ class ExecutionJobModel(db.Model, BaseSQLAlchemyModel):
     pipeline = db.relationship(ResearchPipelineMetadata)
 
 
-__all__ = ("ExecutionJobModel", "ExecutionJobStatus")
+__all__ = (
+    "ExecutionJobModel",
+    "ExecutionJobStatus",
+)

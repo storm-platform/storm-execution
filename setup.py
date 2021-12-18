@@ -27,6 +27,7 @@ extras_require["all"] = [req for _, reqs in extras_require.items() for req in re
 setup_requires = []
 
 install_requires = [
+    # Storm dependencies
     "storm-pipeline @ git+https://github.com/storm-platform/storm-pipeline@main",
 ]
 
