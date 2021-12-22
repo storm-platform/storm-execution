@@ -33,5 +33,5 @@ class JobManagementResourceConfig(BaseResourceConfig):
         "delete-item": "/<job_id>",
         "update-item": "/<job_id>",
         # Job actions
-        "start-item": "/<job_id>/actions/start",
+        "start-job-action": "/<job_id>/actions/start",
     }

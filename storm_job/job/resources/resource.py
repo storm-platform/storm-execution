@@ -42,7 +42,7 @@ class JobManagementResource(ErrorHandlersMixin, Resource):
             route("PUT", routes["update-item"], self.update),
             route("DELETE", routes["delete-item"], self.delete),
             # Job actions
-            route("POST", routes["start-item"], self.start_execution_job),
+            route("POST", routes["start-job-action"], self.start_execution_job),
             # Services operations
             route("GET", routes["list-service"], self.list_plugin_services),
         ]
