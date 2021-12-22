@@ -14,6 +14,9 @@ from storm_commons.plugins.validators import marshmallow_validate_plugin_service
 class ExecutionJobSchema(ma.Schema):
     """Execution Job schema."""
 
+    class Meta:
+        unknown = ma.EXCLUDE
+
     # Job
     id = ma.fields.UUID(dump_only=True)
     status = ma.fields.Function(lambda obj: obj.status.value, dump_only=True)
