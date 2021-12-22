@@ -61,6 +61,15 @@ class JobManagementServiceConfig:
     ]
 
     links_item = {"self": ProjectContextLink("{+api}/projects/{project_id}/jobs/{id}")}
+    links_action = {
+        "start": ProjectContextLink(
+            "{+api}/projects/{project_id}/jobs/{id}/actions/start",
+        ),
+        "cancel": ProjectContextLink(
+            "{+api}/projects/{project_id}/jobs/{id}/actions/cancel",
+        ),
+    }
+
     links_search = project_context_pagination_links(
         "{+api}/projects/{project_id}/jobs{?args*}"
     )

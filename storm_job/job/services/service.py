@@ -8,9 +8,17 @@
 from invenio_db import db
 
 from storm_commons.plugins.rest.service import PluginService
+from storm_commons.services.links import ActionLinksTemplate
 
 
 class JobManagementService(PluginService):
+    """Job service."""
+
+    @property
+    def links_item_tpl(self):
+        """Item links template."""
+        return ActionLinksTemplate(self.config.links_item, self.config.links_action)
+
     def start_execution_job(self, identity, id_, data):
         """Start a job execution."""
         record = self.record_cls.get_record(id=id_)
