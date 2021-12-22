@@ -57,7 +57,6 @@ setup(
     entry_points={
         "invenio_base.apps": [
             "storm_job = storm_job:StormJob",
-            "storm_job_marshmallow = flask_marshmallow:Marshmallow",
         ],
         "invenio_base.api_apps": ["storm_job = storm_job:StormJob"],
         "invenio_base.api_blueprints": [
