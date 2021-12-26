@@ -23,17 +23,12 @@ class ExecutionJobStatus(enum.Enum):
     """Execution Job status."""
 
     # General
-    SUCCESS = "success"
-    FAILURE = "failure"
-    PENDING = "pending"
-    STARTING = "starting"
+    CREATED = "created"
+    FAILED = "failed"
+    QUEUED = "queued"
+    FINISHED = "finished"
 
-    # Internal executors
     RUNNING = "running"
-
-    # External executors
-    SENT = "sent"
-    SENDING = "sending"
 
 
 class ExecutionJobModel(db.Model, BaseRecordModel):
@@ -46,7 +41,7 @@ class ExecutionJobModel(db.Model, BaseRecordModel):
     #
     service = db.Column(db.String)
 
-    status = db.Column(Enum(ExecutionJobStatus), default=ExecutionJobStatus.PENDING)
+    status = db.Column(Enum(ExecutionJobStatus), default=ExecutionJobStatus.CREATED)
 
     #
     # Execution Job User owner

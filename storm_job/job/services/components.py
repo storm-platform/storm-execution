@@ -36,7 +36,7 @@ class ExecutionJobComponent(ServiceComponent):
 
     def start_execution_job(self, identity, record=None, **kwargs):
         """Start Execution Job handler."""
-        record.status = ExecutionJobStatus.STARTING
+        record.status = ExecutionJobStatus.QUEUED
 
     def update(self, identity, data=None, record=None, **kwargs):
         """Update handler."""
