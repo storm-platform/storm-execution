@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-job is free software; you can redistribute it and/or modify it under
+# storm-runner is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 import enum
@@ -14,13 +14,13 @@ from invenio_db import db
 from invenio_accounts.models import User as InvenioUser
 
 from storm_project.project.records.models import ResearchProjectMetadata
-from storm_pipeline.pipeline.records.models import ResearchPipelineMetadata
+from storm_workflow.workflow.records.models import ResearchWorkflowMetadata
 
 from storm_commons.records.model import BaseRecordModel
 
 
-class ExecutionJobStatus(enum.Enum):
-    """Execution Job status."""
+class ExecutionTaskStatus(enum.Enum):
+    """Execution Task status."""
 
     # General
     CREATED = "created"
@@ -31,20 +31,20 @@ class ExecutionJobStatus(enum.Enum):
     RUNNING = "running"
 
 
-class ExecutionJobModel(db.Model, BaseRecordModel):
-    """Execution Job database model."""
+class ExecutionTaskModel(db.Model, BaseRecordModel):
+    """Execution Task database model."""
 
-    __tablename__ = "job_execution_jobs"
+    __tablename__ = "runner_execution_tasks"
 
     #
-    # Execution Job
+    # Execution Task
     #
     service = db.Column(db.String)
 
-    status = db.Column(Enum(ExecutionJobStatus), default=ExecutionJobStatus.CREATED)
+    status = db.Column(Enum(ExecutionTaskStatus), default=ExecutionTaskStatus.CREATED)
 
     #
-    # Execution Job User owner
+    # Execution Task User owner
     #
     user_id = db.Column(db.Integer, db.ForeignKey(InvenioUser.id))
     user = db.relationship(InvenioUser)
@@ -58,11 +58,11 @@ class ExecutionJobModel(db.Model, BaseRecordModel):
     #
     # Related pipeline
     #
-    pipeline_id = db.Column(UUIDType, db.ForeignKey(ResearchPipelineMetadata.id))
-    pipeline = db.relationship(ResearchPipelineMetadata)
+    workflow_id = db.Column(UUIDType, db.ForeignKey(ResearchWorkflowMetadata.id))
+    workflow = db.relationship(ResearchWorkflowMetadata)
 
 
 __all__ = (
-    "ExecutionJobModel",
-    "ExecutionJobStatus",
+    "ExecutionTaskModel",
+    "ExecutionTaskStatus",
 )

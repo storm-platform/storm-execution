@@ -2,19 +2,19 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-job is free software; you can redistribute it and/or modify it under
+# storm-runner is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 from invenio_records.systemfields import SystemFieldsMixin, ModelField
 
-from storm_job.job.models.model import ExecutionJobModel
+from storm_runner.runner.models.model import ExecutionTaskModel
 from storm_commons.records.api import BaseRecordModelAPI
 
 
-class ExecutionJob(BaseRecordModelAPI, SystemFieldsMixin):
-    """Execution Job High-level API"""
+class ExecutionTask(BaseRecordModelAPI, SystemFieldsMixin):
+    """Execution Task High-level API"""
 
-    model_cls = ExecutionJobModel
+    model_cls = ExecutionTaskModel
     """SQLAlchemy model class defining which table stores the records."""
 
     #
@@ -30,10 +30,10 @@ class ExecutionJob(BaseRecordModelAPI, SystemFieldsMixin):
     project_id = ModelField()
 
     #
-    # Used pipeline
+    # Used workflow
     #
-    pipeline = ModelField()
-    pipeline_id = ModelField()
+    workflow = ModelField()
+    workflow_id = ModelField()
 
     # General status
     status = ModelField()
@@ -42,4 +42,4 @@ class ExecutionJob(BaseRecordModelAPI, SystemFieldsMixin):
     is_deleted = ModelField()
 
 
-__all__ = "ExecutionJob"
+__all__ = "ExecutionTask"

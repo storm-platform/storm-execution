@@ -2,24 +2,24 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-job is free software; you can redistribute it and/or modify it under
+# storm-runner is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 from invenio_records_resources.services.records.components import ServiceComponent
 
-from storm_job.job.models.model import ExecutionJobStatus
+from storm_runner.runner.models.model import ExecutionTaskStatus
 
 from storm_project import current_project
-from storm_pipeline.proxies import current_pipeline_service
+from storm_workflow.proxies import current_workflow_service
 
 
-class PipelineComponent(ServiceComponent):
-    """Service component which set the pipeline context in the record."""
+class WorkflowComponent(ServiceComponent):
+    """Service component which set the workflow context in the record."""
 
     def create(self, identity, data=None, record=None, **kwargs):
         """Create handler."""
-        record.pipeline_id = current_pipeline_service.read(
-            data.get("pipeline_id"), identity
+        record.workflow_id = current_workflow_service.read(
+            data.get("workflow_id"), identity
         )._obj.id
 
 
@@ -31,20 +31,20 @@ class ProjectComponent(ServiceComponent):
         record.project_id = current_project._obj.model.id
 
 
-class ExecutionJobComponent(ServiceComponent):
-    """Service component which set the execution job status in the record."""
+class ExecutionTaskComponent(ServiceComponent):
+    """Service component which set the execution task status in the record."""
 
-    def start_execution_job(self, identity, record=None, **kwargs):
-        """Start Execution Job handler."""
-        record.status = ExecutionJobStatus.QUEUED
+    def start_execution_task(self, identity, record=None, **kwargs):
+        """Start Execution Task handler."""
+        record.status = ExecutionTaskStatus.QUEUED
 
     def update(self, identity, data=None, record=None, **kwargs):
         """Update handler."""
 
         # defining the update strategies
         strategies = {
-            "pipeline_id": lambda record, data: current_pipeline_service.read(
-                data.get("pipeline_id"), identity
+            "workflow_id": lambda record, data: current_workflow_service.read(
+                data.get("workflow_id"), identity
             )._obj.id,
             "service": lambda record, data: data.get("service"),
         }
@@ -59,7 +59,7 @@ class ExecutionJobComponent(ServiceComponent):
 
 
 __all__ = (
-    "ExecutionJobComponent",
-    "PipelineComponent",
+    "ExecutionTaskComponent",
+    "WorkflowComponent",
     "ProjectComponent",
 )

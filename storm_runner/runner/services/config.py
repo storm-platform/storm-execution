@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-job is free software; you can redistribute it and/or modify it under
+# storm-runner is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 from storm_commons.services.components import (
@@ -18,20 +18,20 @@ from storm_project.project.services.links import (
     project_context_pagination_links,
 )
 
-from storm_job.job.models.api import ExecutionJob
-from storm_job.job.schema import ExecutionJobSchema
-from storm_job.job.services.components import (
-    PipelineComponent,
+from storm_runner.runner.models.api import ExecutionTask
+from storm_runner.runner.schema import ExecutionTaskSchema
+from storm_runner.runner.services.components import (
+    WorkflowComponent,
     ProjectComponent,
-    ExecutionJobComponent,
+    ExecutionTaskComponent,
 )
-from storm_job.job.services.security.permissions import (
-    JobExecutionRecordPermissionPolicy,
+from storm_runner.runner.services.security.permissions import (
+    ExecutionTaskRecordPermissionPolicy,
 )
 
 
-class JobManagementServiceConfig:
-    """Job management service configuration."""
+class ExecutionTaskManagementServiceConfig:
+    """Execution Task management service configuration."""
 
     result_item_cls = BaseItemResult
     result_list_cls = BaseListResult
@@ -39,43 +39,45 @@ class JobManagementServiceConfig:
     #
     # Common configurations
     #
-    permission_policy_cls = JobExecutionRecordPermissionPolicy
+    permission_policy_cls = ExecutionTaskRecordPermissionPolicy
 
     #
     # Record configuration
     #
-    record_cls = ExecutionJob
+    record_cls = ExecutionTask
 
-    schema = ExecutionJobSchema
+    schema = ExecutionTaskSchema
 
     #
     # Components configuration
     #
     components = [
         ProjectComponent,
-        PipelineComponent,
+        WorkflowComponent,
         UserComponent,
         SoftDeleteComponent,
         RecordServiceComponent,
-        ExecutionJobComponent,
+        ExecutionTaskComponent,
     ]
 
-    links_item = {"self": ProjectContextLink("{+api}/projects/{project_id}/jobs/{id}")}
+    links_item = {
+        "self": ProjectContextLink("{+api}/projects/{project_id}/executions/{id}")
+    }
     links_action = {
         "start": ProjectContextLink(
-            "{+api}/projects/{project_id}/jobs/{id}/actions/start",
+            "{+api}/projects/{project_id}/executions/{id}/actions/start",
         ),
         "cancel": ProjectContextLink(
-            "{+api}/projects/{project_id}/jobs/{id}/actions/cancel",
+            "{+api}/projects/{project_id}/executions/{id}/actions/cancel",
         ),
     }
 
     links_search = project_context_pagination_links(
-        "{+api}/projects/{project_id}/jobs{?args*}"
+        "{+api}/projects/{project_id}/executions{?args*}"
     )
 
     # Search configuration
     search = BaseSearchOptions
 
 
-__all__ = "JobManagementServiceConfig"
+__all__ = "ExecutionTaskManagementServiceConfig"

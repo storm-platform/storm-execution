@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-job is free software; you can redistribute it and/or modify it under
+# storm-runner is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 from flask import g
@@ -24,25 +24,25 @@ from storm_commons.resources.parsers import (
 from invenio_records_resources.resources.errors import ErrorHandlersMixin
 
 
-class JobManagementResource(ErrorHandlersMixin, Resource):
-    """Job management resource."""
+class ExecutionTaskManagementResource(ErrorHandlersMixin, Resource):
+    """Execution Task management resource."""
 
     def __init__(self, config, service):
-        super(JobManagementResource, self).__init__(config)
+        super(ExecutionTaskManagementResource, self).__init__(config)
         self.service = service
 
     def create_url_rules(self):
         """Create the URL rules for the record resource."""
         routes = self.config.routes
         return [
-            # Job operations
+            # Execution task operations
             route("GET", routes["read-item"], self.read),
             route("GET", routes["list-item"], self.search),
             route("POST", routes["create-item"], self.create),
             route("PUT", routes["update-item"], self.update),
             route("DELETE", routes["delete-item"], self.delete),
-            # Job actions
-            route("POST", routes["start-job-action"], self.start_execution_job),
+            # Execution task actions
+            route("POST", routes["start-task-action"], self.start_execution_task),
             # Services operations
             route("GET", routes["list-service"], self.list_plugin_services),
         ]
@@ -64,7 +64,7 @@ class JobManagementResource(ErrorHandlersMixin, Resource):
         """Read an item."""
         item = self.service.read(
             g.identity,
-            resource_requestctx.view_args["job_id"],
+            resource_requestctx.view_args["execution_id"],
         )
         return item.to_dict(), 200
 
@@ -75,7 +75,7 @@ class JobManagementResource(ErrorHandlersMixin, Resource):
         """Update an item."""
         item = self.service.update(
             g.identity,
-            resource_requestctx.view_args["job_id"],
+            resource_requestctx.view_args["execution_id"],
             resource_requestctx.data or {},
         )
         return item.to_dict(), 200
@@ -83,7 +83,7 @@ class JobManagementResource(ErrorHandlersMixin, Resource):
     @request_view_args
     def delete(self):
         """Delete an item."""
-        self.service.delete(g.identity, resource_requestctx.view_args["job_id"])
+        self.service.delete(g.identity, resource_requestctx.view_args["execution_id"])
         return "", 204
 
     @request_search_args
@@ -101,15 +101,15 @@ class JobManagementResource(ErrorHandlersMixin, Resource):
     @request_data
     @request_view_args
     @response_handler()
-    def start_execution_job(self):
-        """Execute a job."""
-        item = self.service.start_execution_job(
+    def start_execution_task(self):
+        """Execute a task."""
+        item = self.service.start_execution_task(
             g.identity,
-            resource_requestctx.view_args["job_id"],
+            resource_requestctx.view_args["execution_id"],
             resource_requestctx.data or {},
         )
 
         return item.to_dict(), 202
 
 
-__all__ = "JobManagementResource"
+__all__ = "ExecutionTaskManagementResource"

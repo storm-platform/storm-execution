@@ -2,12 +2,12 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-job is free software; you can redistribute it and/or modify it under
+# storm-runner is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
-"""Version information for storm-job.
+"""Version information for storm-runner.
 
-This file is imported by ``storm_job.__init__``,
+This file is imported by ``storm_runner.__init__``,
 and parsed by ``setup.py``.
 """
 

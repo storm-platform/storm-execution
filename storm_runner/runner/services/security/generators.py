@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-job is free software; you can redistribute it and/or modify it under
+# storm-runner is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 from storm_project.project.records.systemfields.access import ProjectAgent
@@ -11,9 +11,9 @@ from storm_project.project.services.security.generators import (
 )
 
 
-class JobRecordOwner(ProjectRecordAgent):
+class ExecutionTaskRecordOwner(ProjectRecordAgent):
     """Generator to define if the user is a collaborator of the
-    project associated to the defined execution job."""
+    project associated to the defined execution task."""
 
     def _select_record_agent(self, record, **kwargs):
 
