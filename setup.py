@@ -2,10 +2,10 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-job is free software; you can redistribute it and/or modify it under
+# storm-runner is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
-"""Job schedule and management module for reproduce scientific research in the Storm Platform."""
+"""Storm Runner module for schedule and manage execution tasks in the Storm Platform."""
 
 import os
 from setuptools import find_packages, setup
@@ -36,33 +36,33 @@ packages = find_packages()
 
 # Get the version string. Cannot be done with import!
 g = {}
-with open(os.path.join("storm_job", "version.py"), "rt") as fp:
+with open(os.path.join("storm_runner", "version.py"), "rt") as fp:
     exec(fp.read(), g)
     version = g["__version__"]
 
 setup(
-    name="storm-job",
+    name="storm-runner",
     version=version,
     description=__doc__,
     long_description=readme + "\n\n" + history,
-    keywords=["Storm Platform", "Execution jobs", "Invenio module"],
+    keywords=["Storm Platform", "Execution Tasks", "Invenio module"],
     license="MIT",
     author="Felipe Menino Carlos",
     author_email="felipe.carlos@inpe.br",
-    url="https://github.com/storm-platform/storm-job",
+    url="https://github.com/storm-platform/storm-runner",
     packages=packages,
     zip_safe=False,
     include_package_data=True,
     platforms="any",
     entry_points={
         "invenio_base.apps": [
-            "storm_job = storm_job:StormJob",
+            "storm_runner = storm_runner:StormRunner",
         ],
-        "invenio_base.api_apps": ["storm_job = storm_job:StormJob"],
+        "invenio_base.api_apps": ["storm_runner = storm_runner:StormRunner"],
         "invenio_base.api_blueprints": [
-            "storm_job_api = storm_job.views:create_job_management_blueprint_api"
+            "storm_runner_api = storm_runner.views:create_execution_task_management_blueprint_api"
         ],
-        "invenio_db.models": ["storm_job = storm_job.job.models.model"],
+        "invenio_db.models": ["storm_runner = storm_runner.runner.models.model"],
         # 'invenio_access.actions': [],
         # 'invenio_admin.actions': [],
         # 'invenio_assets.bundles': [],
