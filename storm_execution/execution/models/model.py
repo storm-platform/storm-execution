@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-runner is free software; you can redistribute it and/or modify it under
+# storm-execution is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 import enum
@@ -34,7 +34,7 @@ class ExecutionTaskStatus(enum.Enum):
 class ExecutionTaskModel(db.Model, BaseRecordModel):
     """Execution Task database model."""
 
-    __tablename__ = "runner_execution_tasks"
+    __tablename__ = "execution_execution_tasks"
 
     #
     # Execution Task

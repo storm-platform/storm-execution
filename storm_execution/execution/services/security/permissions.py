@@ -2,14 +2,16 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-runner is free software; you can redistribute it and/or modify it under
+# storm-execution is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 from invenio_records_permissions.generators import SystemProcess
 from invenio_records_permissions.policies.records import RecordPermissionPolicy
 from storm_project.project.services.security.generators import ProjectRecordUser
 
-from storm_runner.runner.services.security.generators import ExecutionTaskRecordOwner
+from storm_execution.execution.services.security.generators import (
+    ExecutionTaskRecordOwner,
+)
 
 
 class ExecutionTaskRecordPermissionPolicy(RecordPermissionPolicy):

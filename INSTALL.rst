@@ -1,8 +1,8 @@
 Installation
 ============
 
-storm-runner is on PyPI so all you need is:
+storm-execution is on PyPI so all you need is:
 
 .. code-block:: console
 
-   $ pip install storm-runner
+   $ pip install storm-execution

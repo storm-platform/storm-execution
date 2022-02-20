@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-runner is free software; you can redistribute it and/or modify it under
+# storm-execution is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 import marshmallow as ma
@@ -22,7 +22,7 @@ class ExecutionTaskSchema(ma.Schema):
     status = ma.fields.Function(lambda obj: obj.status.value, dump_only=True)
 
     service = SanitizedUnicode(
-        validate=lambda obj: marshmallow_validate_plugin_service("storm-runner")(obj),
+        validate=lambda obj: marshmallow_validate_plugin_service("storm-execution")(obj),
         required=True,
     )
 

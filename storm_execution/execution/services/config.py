@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-runner is free software; you can redistribute it and/or modify it under
+# storm-execution is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 from storm_commons.services.components import (
@@ -18,14 +18,14 @@ from storm_project.project.services.links import (
     project_context_pagination_links,
 )
 
-from storm_runner.runner.models.api import ExecutionTask
-from storm_runner.runner.schema import ExecutionTaskSchema
-from storm_runner.runner.services.components import (
+from storm_execution.execution.models.api import ExecutionTask
+from storm_execution.execution.schema import ExecutionTaskSchema
+from storm_execution.execution.services.components import (
     WorkflowComponent,
     ProjectComponent,
     ExecutionTaskComponent,
 )
-from storm_runner.runner.services.security.permissions import (
+from storm_execution.execution.services.security.permissions import (
     ExecutionTaskRecordPermissionPolicy,
 )
 
