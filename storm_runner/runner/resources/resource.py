@@ -64,7 +64,7 @@ class ExecutionTaskManagementResource(ErrorHandlersMixin, Resource):
         """Read an item."""
         item = self.service.read(
             g.identity,
-            resource_requestctx.view_args["execution_id"],
+            resource_requestctx.view_args["job_id"],
         )
         return item.to_dict(), 200
 
@@ -75,7 +75,7 @@ class ExecutionTaskManagementResource(ErrorHandlersMixin, Resource):
         """Update an item."""
         item = self.service.update(
             g.identity,
-            resource_requestctx.view_args["execution_id"],
+            resource_requestctx.view_args["job_id"],
             resource_requestctx.data or {},
         )
         return item.to_dict(), 200
@@ -83,7 +83,7 @@ class ExecutionTaskManagementResource(ErrorHandlersMixin, Resource):
     @request_view_args
     def delete(self):
         """Delete an item."""
-        self.service.delete(g.identity, resource_requestctx.view_args["execution_id"])
+        self.service.delete(g.identity, resource_requestctx.view_args["job_id"])
         return "", 204
 
     @request_search_args
@@ -105,7 +105,7 @@ class ExecutionTaskManagementResource(ErrorHandlersMixin, Resource):
         """Execute a task."""
         item = self.service.start_execution_task(
             g.identity,
-            resource_requestctx.view_args["execution_id"],
+            resource_requestctx.view_args["job_id"],
             resource_requestctx.data or {},
         )
 

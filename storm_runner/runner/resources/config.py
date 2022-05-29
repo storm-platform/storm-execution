@@ -18,20 +18,20 @@ class ExecutionTaskManagementResourceConfig(BaseResourceConfig):
     blueprint_name = "storm_runner_execution_tasks_management"
 
     # Request/Response configuration.
-    request_view_args = {"execution_id": ma.fields.Str()}
+    request_view_args = {"job_id": ma.fields.Str()}
     request_search_args = ExecutionTaskSearchRequestArgsSchema
 
     # Routes configuration.
-    url_prefix = "/projects/<project_id>/executions"
+    url_prefix = "/projects/<project_id>/runs"
     routes = {
         # Services operations
         "list-service": "/services",
         # Execution Task operations
         "list-item": "",
         "create-item": "",
-        "read-item": "/<execution_id>",
-        "delete-item": "/<execution_id>",
-        "update-item": "/<execution_id>",
+        "read-item": "/<job_id>",
+        "delete-item": "/<job_id>",
+        "update-item": "/<job_id>",
         # Execution Task actions
-        "start-task-action": "/<execution_id>/actions/start",
+        "start-task-action": "/<job_id>/actions/start",
     }
