@@ -61,7 +61,7 @@ class ExecutionTaskManagementServiceConfig:
     ]
 
     links_item = {
-        "self": ProjectContextLink("{+api}/projects/{project_id}/executions/{id}")
+        "self": ProjectContextLink("{+api}/projects/{project_id}/runs/{id}")
     }
     links_action = {
         "start": ProjectContextLink(
@@ -73,7 +73,7 @@ class ExecutionTaskManagementServiceConfig:
     }
 
     links_search = project_context_pagination_links(
-        "{+api}/projects/{project_id}/executions{?args*}"
+        "{+api}/projects/{project_id}/runs{?args*}"
     )
 
     # Search configuration
