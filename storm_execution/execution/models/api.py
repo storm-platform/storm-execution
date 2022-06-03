@@ -2,12 +2,12 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-runner is free software; you can redistribute it and/or modify it under
+# storm-execution is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 from invenio_records.systemfields import SystemFieldsMixin, ModelField
 
-from storm_runner.runner.models.model import ExecutionTaskModel
+from storm_execution.execution.models.model import ExecutionTaskModel
 from storm_commons.records.api import BaseRecordModelAPI
 
 

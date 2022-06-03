@@ -1,12 +1,12 @@
 ..
     Copyright (C) 2021 Storm Project.
 
-    storm-runner is free software; you can redistribute it and/or modify it
+    storm-execution is free software; you can redistribute it and/or modify it
     under the terms of the MIT License; see LICENSE file for more details.
 
-=============
- Storm Runner
-=============
+=================
+ Storm Execution
+=================
 
 .. image:: https://img.shields.io/badge/license-MIT-green
         :target: https://github.com/storm-platform/storm-runner/blob/master/LICENSE
@@ -32,7 +32,7 @@
 About
 =====
 
-Storm Runner module for schedule and manage execution tasks in the Storm Platform.
+Storm Execution module for schedule and manage execution tasks in the Storm Platform.
 
 - Free software: MIT license;
 - Documentation: https://storm-runner.readthedocs.io/

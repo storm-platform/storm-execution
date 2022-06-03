@@ -2,10 +2,10 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-runner is free software; you can redistribute it and/or modify it under
+# storm-execution is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
-"""Storm Runner module for schedule and manage execution tasks in the Storm Platform."""
+"""Storm Execution module for schedule and manage execution tasks in the Storm Platform."""
 
 import os
 from setuptools import find_packages, setup
@@ -36,12 +36,12 @@ packages = find_packages()
 
 # Get the version string. Cannot be done with import!
 g = {}
-with open(os.path.join("storm_runner", "version.py"), "rt") as fp:
+with open(os.path.join("storm_execution", "version.py"), "rt") as fp:
     exec(fp.read(), g)
     version = g["__version__"]
 
 setup(
-    name="storm-runner",
+    name="storm-execution",
     version=version,
     description=__doc__,
     long_description=readme + "\n\n" + history,
@@ -49,20 +49,20 @@ setup(
     license="MIT",
     author="Felipe Menino Carlos",
     author_email="felipe.carlos@inpe.br",
-    url="https://github.com/storm-platform/storm-runner",
+    url="https://github.com/storm-platform/storm-execution",
     packages=packages,
     zip_safe=False,
     include_package_data=True,
     platforms="any",
     entry_points={
         "invenio_base.apps": [
-            "storm_runner = storm_runner:StormRunner",
+            "storm_execution = storm_execution:StormExecution",
         ],
-        "invenio_base.api_apps": ["storm_runner = storm_runner:StormRunner"],
+        "invenio_base.api_apps": ["storm_execution = storm_execution:StormExecution"],
         "invenio_base.api_blueprints": [
-            "storm_runner_api = storm_runner.views:create_execution_task_management_blueprint_api"
+            "storm_execution_api = storm_execution.views:create_execution_task_management_blueprint_api"
         ],
-        "invenio_db.models": ["storm_runner = storm_runner.runner.models.model"],
+        "invenio_db.models": ["storm_execution = storm_execution.execution.models.model"],
         # 'invenio_access.actions': [],
         # 'invenio_admin.actions': [],
         # 'invenio_assets.bundles': [],

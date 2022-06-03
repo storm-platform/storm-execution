@@ -2,27 +2,27 @@
 #
 # Copyright (C) 2021 Storm Project.
 #
-# storm-runner is free software; you can redistribute it and/or modify it under
+# storm-execution is free software; you can redistribute it and/or modify it under
 # the terms of the MIT License; see LICENSE file for more details.
 
 import marshmallow as ma
 
 from storm_commons.resources.config import BaseResourceConfig
-from storm_runner.runner.resources.args import ExecutionTaskSearchRequestArgsSchema
+from storm_execution.execution.resources.args import ExecutionTaskSearchRequestArgsSchema
 
 
 class ExecutionTaskManagementResourceConfig(BaseResourceConfig):
     """Execution task management resource config."""
 
     # Blueprint configuration.
-    blueprint_name = "storm_runner_execution_tasks_management"
+    blueprint_name = "storm_execution_execution_tasks_management"
 
     # Request/Response configuration.
     request_view_args = {"job_id": ma.fields.Str()}
     request_search_args = ExecutionTaskSearchRequestArgsSchema
 
     # Routes configuration.
-    url_prefix = "/projects/<project_id>/runs"
+    url_prefix = "/projects/<project_id>/executions"
     routes = {
         # Services operations
         "list-service": "/services",
