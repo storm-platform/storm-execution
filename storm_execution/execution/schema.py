@@ -22,7 +22,7 @@ class ExecutionTaskSchema(ma.Schema):
     status = ma.fields.Function(lambda obj: obj.status.value, dump_only=True)
 
     service = SanitizedUnicode(
-        validate=lambda obj: marshmallow_validate_plugin_service("storm-runner")(obj),
+        validate=lambda obj: marshmallow_validate_plugin_service("storm-execution")(obj),
         required=True,
     )
 
